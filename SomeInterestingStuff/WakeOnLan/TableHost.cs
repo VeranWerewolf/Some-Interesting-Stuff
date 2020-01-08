@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SomeInterestingStuff.WakeOnLan
 {
+    [DataContract]
     public class TableHost
     {
         public TableHost() { }
@@ -115,10 +117,14 @@ namespace SomeInterestingStuff.WakeOnLan
                 return check.IsMatch(Address, 0);
         }
 
+        [DataMember]
         public string ipAdress { get; set; }
         public System.Net.IPAddress netipAdress { get { return System.Net.IPAddress.Parse(this.ipAdress); } }
+        [DataMember]
         public int port { get; set; }
+        [DataMember]
         public string computerName { get; set; }
+        [DataMember]
         public string macAddress { get; set; }
         public string preparedMac { get { return macAddress.Replace(":", "").Replace("-", ""); } }
     }

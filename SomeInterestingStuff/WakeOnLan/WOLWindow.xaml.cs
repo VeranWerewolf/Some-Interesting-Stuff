@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -21,7 +23,8 @@ namespace SomeInterestingStuff.WakeOnLan
     public partial class WOLWindow : Window
     {
         List<TableHost> _hosts = new List<TableHost>();
-
+        private readonly string ListFileName;
+        private readonly string ListFilePath;
 
         public WOLWindow()
         {
@@ -35,6 +38,22 @@ namespace SomeInterestingStuff.WakeOnLan
                 ip.Append(i.ToString()).Append(Environment.NewLine);
             }
             YourIPlabel.Content = ip.ToString();
+
+            ListFileName = "WOL-IP clients.json";
+            ListFilePath = new StringBuilder().Append(System.IO.Path.GetDirectoryName(System.Reflection.Assembly
+                .GetExecutingAssembly().Location))
+                .Append("\\").Append(ListFileName).ToString();
+            if (File.Exists(ListFilePath))
+            {
+                string json = File.ReadAllText(ListFilePath);
+                _hosts = JsonConvert.DeserializeObject<List<TableHost>>(json);
+                IPlistView.ItemsSource = null;
+                IPlistView.ItemsSource = _hosts;
+            }
+            else
+            {
+                File.Create(ListFilePath).Close();
+            }
         }
 
         /// <summary>
@@ -58,47 +77,10 @@ namespace SomeInterestingStuff.WakeOnLan
             { MessageBox.Show(e.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error); return null; }
             catch { MessageBox.Show("Incorrect input!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error); return null; }
         }
-        private byte[] MagicPacket(string preparedMAC)
-        {
-            //set sending bytes
-            int counter = 0;
-            //buffer to be send
-            byte[] bytes = new byte[1024];   // Magic packet is 102 bytes length, so 1024 is more than enough :-)  
-
-            //first 6 bytes should be 0xFF
-            for (int y = 0; y < 6; y++)
-                bytes[counter++] = 0xFF;
-            //now repeate MAC 16 times
-            for (int y = 0; y < 16; y++)
-            {
-                int i = 0;
-                for (int z = 0; z < 6; z++)
-                {
-                    bytes[counter++] =
-                        byte.Parse(preparedMAC.Substring(i, 2),
-                        System.Globalization.NumberStyles.HexNumber);
-                    i += 2;
-                }
-            }
-            //and return
-            return bytes;
-        }
-        private void WakeFunction(TableHost HostToWake)
-        {
-            WOLClass client = new WOLClass();
-            client.Connect(
-                HostToWake.netipAdress,  //255.255.255.255 broadcast
-                HostToWake.port); // port=9 is default
-
-            //client.SetClientToBrodcastMode();
-            
-            //now send wake up packet
-            int reterned_value = client.Send(MagicPacket(HostToWake.preparedMac), 1024);
-        }
 
         private void ScanButton_Click(object sender, RoutedEventArgs e)
         {
-            //Here would be a check if PC is online
+            //TODO Here would be a check if PC is online
         }
 
         private void WakeButton_Click(object sender, RoutedEventArgs e)
@@ -110,7 +92,7 @@ namespace SomeInterestingStuff.WakeOnLan
             }
             try
             {
-                WakeFunction(HostToWake);
+                WOL.WakeFunction(HostToWake);
                 MessageBox.Show("Magic packet send!", "Ok", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch { MessageBox.Show("Magic packet sending error!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error); }
@@ -128,7 +110,7 @@ namespace SomeInterestingStuff.WakeOnLan
             {
                 return;
             }
-            //Далее, если всё успешно, добавляем все данные в список, после чего выводим всё в ListView
+            
             Dispatcher.Invoke(new Action(() =>
             {
                 _hosts.Add(HostToAdd);
@@ -161,15 +143,16 @@ namespace SomeInterestingStuff.WakeOnLan
         {
             try
             {
-                WakeFunction(_hosts[IPlistView.SelectedIndex]);
+                WOL.WakeFunction(_hosts[IPlistView.SelectedIndex]);
                 MessageBox.Show("Magic packet send!", "Ok", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch { MessageBox.Show("Magic packet sending error!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
+        
         private void SaveList_Click(object sender, RoutedEventArgs e)
         {
-
+            File.WriteAllText(ListFilePath, JsonConvert.SerializeObject(_hosts));
         }
     }
 }
