@@ -21,11 +21,12 @@
         </Grid.ColumnDefinitions>
         <Label Content="Some Stuff" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="80" Grid.Row="0" Grid.Column="0"/>
         <Button Name="KeyCodesButton" Content="Key Codes" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="KeyCodesButton_Click" Grid.Row="1" Height="19"/>
-        <Button Name="RPNButton" Content="RPN" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Width="80" Click="RPNButton_Click" Grid.Row="1" Height="19"/>
+        <Button Name="RPNButton" Content="RPN" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="80" Click="RPNButton_Click" Grid.Row="1" Height="19"/>
 
         <Label Content="LAN Stuff" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="80" Grid.Row="0" Grid.Column="1"/>
         <Button Name="MPButton" Content="Magic packet" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Click="MPButton_Click" Grid.Row="1" Grid.Column="1" Height="19"/>
-        <Button Name="WolButton" Content="Wake on Lan" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Width="80" Click="WolButton_Click" Grid.Row="1" Grid.Column="1" Height="19"/>
+        <Button Name="WolButton" Content="Wake on Lan" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="80" Click="WolButton_Click" Grid.Row="1" Grid.Column="1" Height="19"/>
+        <Button Name="UDPChatButton" Content="UDP Chat" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="80" Click="UDPChatButton_Click" Grid.Row="1" Grid.Column="1" Height="19"/>
         
 
     </Grid>

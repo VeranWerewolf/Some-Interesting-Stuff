@@ -16,15 +16,15 @@ namespace SomeInterestingStuff.WakeOnLan
         /// </summary>
         public TableHost(string ip, int Port, string name, string mac)
         {
-            if (!IsValidIP(ip))
+            if (!InputChecker.LanSettingsChecker.IsValidIP(ip))
             {
                 throw new ArgumentException("IP validation failed!");
             }
-            else if (!IsValidMAC(mac))
+            else if (!InputChecker.LanSettingsChecker.IsValidMAC(mac))
             {
                 throw new ArgumentException("MAC validation failed!");
             }
-            else if (!IsValidPort(Port))
+            else if (!InputChecker.LanSettingsChecker.IsValidPort(Port))
             {
                 throw new ArgumentException("Port validation failed!");
             }
@@ -57,15 +57,15 @@ namespace SomeInterestingStuff.WakeOnLan
                 Port = int.Parse(ipAndPort.Substring(colonIndex + 1));
             }
 
-            if (!IsValidIP(ip))
+            if (!InputChecker.LanSettingsChecker.IsValidIP(ip))
             {
                 throw new ArgumentException("IP validation failed!");
             }
-            else if (!IsValidMAC(mac))
+            else if (!InputChecker.LanSettingsChecker.IsValidMAC(mac))
             {
                 throw new ArgumentException("MAC validation failed!");
             }
-            else if (!IsValidPort(Port))
+            else if (!InputChecker.LanSettingsChecker.IsValidPort(Port))
             {
                 throw new ArgumentException("Port validation failed!");
             }
@@ -74,47 +74,6 @@ namespace SomeInterestingStuff.WakeOnLan
             this.port = Port;
             this.computerName = name;
             this.macAddress = mac;
-        }
-
-        public bool IsValidPort(int Port)
-        {
-            return (Port >= 0 && Port <= 65535);
-        }
-        public bool IsValidMAC (string Address)
-        {
-            Address = Address.Replace(" ", "").Replace(":", "").Replace("-", "");
-
-            // Match pattern for MAC address
-            // Matches:12-23-34-45-56-67, 12:23:34:45:56:67, 122334455667
-            // But not:12:34-4556-67
-            string Pattern = @"^(?:[0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}|(?:[0-9a-fA-F]{2}-){5}[0-9a-fA-F]{2}|(?:[0-9a-fA-F]{2}){5}[0-9a-fA-F]{2}$";
-            //Regular Expression object
-            System.Text.RegularExpressions.Regex check =
-                new System.Text.RegularExpressions.Regex(Pattern);
-            
-            //check to make sure an ip address was provided    
-            if (string.IsNullOrEmpty(Address))
-                //returns false if IP is not provided    
-                return false;
-            else
-                //Matching the pattern    
-                return check.IsMatch(Address, 0);
-        }
-        public bool IsValidIP(string Address)
-        {
-            //Match pattern for IP address    
-            string Pattern = @"^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$";
-            //Regular Expression object    
-            System.Text.RegularExpressions.Regex check =
-                new System.Text.RegularExpressions.Regex(Pattern);
-
-            //check to make sure an ip address was provided    
-            if (string.IsNullOrEmpty(Address))
-                //returns false if IP is not provided    
-                return false;
-            else
-                //Matching the pattern    
-                return check.IsMatch(Address, 0);
         }
 
         [DataMember]

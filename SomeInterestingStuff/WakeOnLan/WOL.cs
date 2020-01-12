@@ -44,7 +44,9 @@ namespace SomeInterestingStuff.WakeOnLan
             //client.SetClientToBrodcastMode();
 
             //now send wake up packet
-            int reterned_value = client.Send(MagicPacket(HostToWake.preparedMac), 1024);
+            byte[] packet = MagicPacket(HostToWake.preparedMac);
+            int reterned_value = client.Send(packet, packet.Length);
+            client.Close();
         }
     }
 }

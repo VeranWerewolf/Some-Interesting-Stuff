@@ -60,10 +60,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="InputChecker\LanSettingsChecker.cs" />
     <Compile Include="ReversePolishNotation\RPN.cs" />
     <Compile Include="ReversePolishNotation\RPNWindow.xaml.cs">
       <DependentUpon>RPNWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UDPChat\ChatSettingsWindow.xaml.cs">
+      <DependentUpon>ChatSettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UDPChat\Message.cs" />
+    <Compile Include="UDPChat\MessageLog.cs" />
+    <Compile Include="UDPChat\SimpleUDPChatWindow.xaml.cs">
+      <DependentUpon>SimpleUDPChatWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UDPChat\UDPChat.cs" />
     <Compile Include="WakeOnLan\TableHost.cs" />
     <Compile Include="WakeOnLan\MagicPacketWindow.xaml.cs">
       <DependentUpon>MagicPacketWindow.xaml</DependentUpon>
@@ -93,6 +103,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ReversePolishNotation\RPNWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UDPChat\ChatSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UDPChat\SimpleUDPChatWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

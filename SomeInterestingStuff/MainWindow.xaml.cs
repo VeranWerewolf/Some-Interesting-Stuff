@@ -47,6 +47,17 @@ namespace SomeInterestingStuff
             WakeOnLan.MagicPacketWindow mpWindow = new WakeOnLan.MagicPacketWindow();
             mpWindow.Show();
         }
-        
+        private void UDPChatButton_Click(object sender, RoutedEventArgs e)
+        {
+            UDPChat.SimpleUDPChatWindow udpChatWindow = new UDPChat.SimpleUDPChatWindow();
+            udpChatWindow.Show();
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            // Shutdown the application.
+            Application.Current.Shutdown();
+            // OR You can Also go for below logic
+        }
     }
 }
